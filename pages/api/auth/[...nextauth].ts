@@ -29,12 +29,12 @@ export const authOptions: NextAuthOptions = {
         name: { label: "User Name", type: "name" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      authorize: async(credentials ,req) => {
         const payload = {
           name: credentials?.name,
           password: credentials?.password,
         }
-        const response = await fetch(backendURL + "/signIn/pwd", { 
+        const response = await fetch("http://127.0.0.1:8080/signIn/pwd", { 
           method: 'POST',
           body: JSON.stringify(payload),  
           headers: {
@@ -42,8 +42,9 @@ export const authOptions: NextAuthOptions = {
           } 
         }
         );
-
+        console.log(credentials);
         const user = await response.json();
+        console.log(user);
         // If no error and we have user data, return it
         if (response.ok && user) {
           return user;
@@ -60,7 +61,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, account }) {
       if (user) {
-        token.email = user.email;
+        token.name = user.name;
         token.userName = user.userName;
         token.userType = user.userType;
         token.accessToken = user.token;
@@ -70,7 +71,7 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (token) {
-        session.user.email = token.email;
+        session.user.name = token.name;
         session.user.userName = token.userName;
         session.user.userType = token.userType;
         session.user.accessToken = token.accessToken;

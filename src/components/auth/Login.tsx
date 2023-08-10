@@ -11,12 +11,10 @@ export default function SignIn({}) {
   return (
     <>
       <Formik
-        initialValues={{ email: '', password: '', tenantKey: '' }}
+        initialValues={{ name: '', password: '', tenantKey: '' }}
         validationSchema={Yup.object({
-            name: Yup.string()
-            .email('Invalid email address')
-            .required('Please enter your email'),
-          password: Yup.string().required('Please enter your password'),
+            name: Yup.string() .required('Please enter your name'),
+            password: Yup.string().required('Please enter your password'),
         })}
         onSubmit={async (values, { setSubmitting }) => {
           const res = await signIn('credentials', {
@@ -44,7 +42,7 @@ export default function SignIn({}) {
                 </div>
                 <div className="mb-4">
                   <label
-                    htmlFor="email"
+                    htmlFor="name"
                     className="uppercase text-sm text-gray-600 font-bold"
                   >
                     Name

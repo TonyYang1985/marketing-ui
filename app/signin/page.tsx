@@ -13,18 +13,17 @@ export default function SignIn() {
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
       <Formik
-        initialValues={{ email: '', password: '', tenantKey: '' }}
+        initialValues={{ name: '', password: '', tenantKey: '' }}
         validationSchema={Yup.object({
-          email: Yup.string()
+          name: Yup.string()
             .max(30, 'Must be 30 characters or less')
-            .email('Invalid email address')
-            .required('Please enter your email'),
+            .required('Please enter your name'),
           password: Yup.string().required('Please enter your password'),
         })}
         onSubmit={async (values, { setSubmitting }) => {
           const res = await signIn('credentials', {
             redirect: false,
-            email: values.email,
+            name: values.name,
             password: values.password,
             callbackUrl: `${window.location.origin}`,
           })
@@ -46,13 +45,13 @@ export default function SignIn() {
                 </div>
                 <div className="mb-4">
                   <label
-                    htmlFor="email"
+                    htmlFor="name"
                     className="uppercase text-sm text-gray-600 font-bold"
                   >
-                    Email
+                    Name
                     <Field
-                      name="email"
-                      aria-label="enter your email"
+                      name="name"
+                      aria-label="enter your name"
                       aria-required="true"
                       type="text"
                       className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
@@ -60,7 +59,7 @@ export default function SignIn() {
                   </label>
 
                   <div className="text-red-600 text-sm">
-                    <ErrorMessage name="email" />
+                    <ErrorMessage name="name" />
                   </div>
                 </div>
                 <div className="mb-6">
