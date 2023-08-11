@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 
 export default function SignIn() {
   const router = useRouter()
-  const [error, setError] = useState(null)
+  const [error, setError] = useState('')
 
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
@@ -28,11 +28,14 @@ export default function SignIn() {
             callbackUrl: `${window.location.origin}`,
           })
           if (res?.error) {
-            setError(res.error)
+            setError(res?.error)
           } else {
             setError(null)
           }
-          if (res.url) router.push(res.url)
+          if (res?.url) {
+            router.push(res?.url)
+           }
+      
           setSubmitting(false)
         }}
       >

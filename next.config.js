@@ -5,7 +5,10 @@ const nextConfig = {
     },
     experimental: {
       serverComponentsExternalPackages: ['@tremor/react']
-    }
+    },
+    env: {
+      NEXTAUTH_SECRET:"1XHUyXhfiLlMneSfoKjAUTKRVpfqKNP+Ft7cZELoUDc=",
+    },
   };
   
   module.exports = nextConfig;

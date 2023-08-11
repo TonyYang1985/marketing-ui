@@ -1,14 +1,13 @@
 import NextAuth, { Awaitable, NextAuthOptions, RequestInternal, User } from 'next-auth';
-import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export const authOptions: NextAuthOptions = {
-  secret: process.env.JWT_SECRET,
+   secret: process.env.NEXTAUTH_SECRET,
+  //secret: process.env.AUTH_SECRET,
   session: {
     strategy: "jwt",
-    maxAge: 1* 24 * 60 * 60, // 1 days
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {
     signIn: '/signin',
@@ -19,7 +18,7 @@ export const authOptions: NextAuthOptions = {
     logo: '/vercel.svg', // Absolute URL to image
   },
   // Enable debug messages in the console if you are having problems
-  debug: process.env.NODE_ENV === 'development',
+  debug: process.env.NODE_ENV === 'development' ? true : false,
   providers: [
     CredentialsProvider({
       id: 'credentials',
@@ -29,7 +28,7 @@ export const authOptions: NextAuthOptions = {
         name: { label: "User Name", type: "name" },
         password: { label: "Password", type: "password" },
       },
-      authorize: async(credentials ,req) => {
+      async authorize(credentials) {
         const payload = {
           name: credentials?.name,
           password: credentials?.password,
@@ -62,17 +61,17 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, account }) {
       if (user) {
         token.name = user.name;
-        token.userName = user.userName;
-        token.userType = user.userType;
-        token.accessToken = user.token;
-        token.refreshToken = user.token;
+        token.userName = user?.name;
+        token.userType = user?.userType;
+        token.accessToken = user?.token;
+        token.refreshToken = user?.token;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
         session.user.name = token.name;
-        session.user.userName = token.userName;
+        session.user.userName = token.name;
         session.user.userType = token.userType;
         session.user.accessToken = token.accessToken;
       }
