@@ -41,9 +41,9 @@ export const authOptions: NextAuthOptions = {
           } 
         }
         );
-        console.log(credentials);
+       // console.log(credentials);
         const user = await response.json();
-        console.log(user);
+        //console.log(user);
         // If no error and we have user data, return it
         if (response.ok && user) {
           return user;
