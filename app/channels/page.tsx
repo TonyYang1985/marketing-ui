@@ -3,12 +3,12 @@ import Search from '@/src/components/home/search';
 import UsersTable from '@/src/components/home/table';
 import { Suspense } from 'react';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import { AuthOptions, getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth';
 import { redirect } from "next/navigation";
 
 export const dynamic = 'force-dynamic';
 
-export default async function IndexPage({ searchParams }: { searchParams: { q: string } }) {
+export default async function ChannelsPage({ searchParams }: { searchParams: { q: string } }) {
   const session = await getServerSession(authOptions);
   if (!session) {
     redirect("/signin");
