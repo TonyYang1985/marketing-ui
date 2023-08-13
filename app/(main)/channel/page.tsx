@@ -6,13 +6,13 @@ import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth';
 import { redirect } from "next/navigation";
 
-export const dynamic = 'force-dynamic';
+
 
 export default async function ChannelsPage({ searchParams }: { searchParams: { q: string } }) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    redirect("/signin");
-  }
+  // const session = await getServerSession(authOptions);
+  // if (!session) {
+  //   redirect("/signin");
+  // }
   console.log(`*********1  IndexPage *******`);
  // console.log(`********* IndexPage ******* ${JSON.stringify(session)}`);
   const users = [
@@ -38,4 +38,3 @@ export default async function ChannelsPage({ searchParams }: { searchParams: { q
     </main>
   );
 }
-

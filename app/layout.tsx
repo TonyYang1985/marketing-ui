@@ -1,23 +1,18 @@
-import './globals.css';
+import React from 'react';
 
-import { Suspense } from 'react';
-import { Analytics } from '@vercel/analytics/react';
-import Nav from '@/src/components/layout/nav';
+const title = 'Route Groups';
 
-export default async function RootLayout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
+export const metadata = {
+  title,
+  openGraph: {
+    title,
+    images: [`/api/og?title=${title}`],
+  },
+};
+
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="h-full bg-gray-50">
-      <body className="h-full">
-        <Suspense>
-          <Nav />
-        </Suspense>
-        {children}
-        <Analytics />
-      </body>
-    </html>
-  );
+      <body className="h-full">{children}</body>
+    </html>);
 }
