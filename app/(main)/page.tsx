@@ -5,7 +5,7 @@ import Chart from '@/src/components/playground/chart';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth';
 import { redirect } from "next/navigation";
-import { use } from 'react';
+import { useSession } from "next-auth/react";
 
 export const dynamic = 'force-dynamic';
 const list = [
@@ -44,18 +44,14 @@ const list = [
 ];
 
 
-async function getDashboard(): Promise<string> {
-  return fetch('http://localhost:8080/dashboard').then((res)=>res.text())
-}
 
-// eslint-disable-next-line @next/next/no-async-client-component
 export default function IndexPage() {
-  // const session = await getServerSession(authOptions);
-  // if (!session) {
-  //   redirect("/signin");
-  // }
+  const { data: session } = useSession();
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
+       <h1>Client Session</h1>
+       <pre>{JSON.stringify(session)}</pre>
+
       <Grid numItemsSm={2} numItemsLg={3} className="gap-6">
         {list.map((item) => (
           <Card key={item.category}>
