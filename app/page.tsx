@@ -1,41 +1,79 @@
-import { Card, Title, Text } from '@tremor/react';
-import Search from '@/src/components/home/search';
-import UsersTable from '@/src/components/home/table';
-import { Suspense } from 'react';
-import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import { AuthOptions, getServerSession } from 'next-auth';
-import { redirect } from "next/navigation";
+'use client';
 
-export const dynamic = 'force-dynamic';
+import { Card, Metric, Text, Title, BarList, Flex, Grid } from '@tremor/react';
+import Chart from '@/src/components/playground/chart';
 
-export default async function IndexPage({ searchParams }: { searchParams: { q: string } }) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    redirect("/signin");
+const website = [
+  { name: '/home', value: 1230 },
+  { name: '/contact', value: 751 },
+  { name: '/gallery', value: 471 },
+  { name: '/august-discount-offer', value: 280 },
+  { name: '/case-studies', value: 78 }
+];
+
+const shop = [
+  { name: '/home', value: 453 },
+  { name: '/imprint', value: 351 },
+  { name: '/shop', value: 271 },
+  { name: '/pricing', value: 191 }
+];
+
+const app = [
+  { name: '/shop', value: 789 },
+  { name: '/product-features', value: 676 },
+  { name: '/about', value: 564 },
+  { name: '/login', value: 234 },
+  { name: '/downloads', value: 191 }
+];
+
+const data = [
+  {
+    category: 'Website',
+    stat: '10,234',
+    data: website
+  },
+  {
+    category: 'Online Shop',
+    stat: '12,543',
+    data: shop
+  },
+  {
+    category: 'Mobile App',
+    stat: '2,543',
+    data: app
   }
-  console.log(`*********1  IndexPage *******`);
- // console.log(`********* IndexPage ******* ${JSON.stringify(session)}`);
-  const users = [
-    { id: 1, name: 'Lee Robinson', username: '@leerob', email: 'lee@vercel.com' },
-    { id: 2, name: 'Leanne Graham', username: '@leanne', email: 'leanne@gmail.com' },
-    { id: 3, name: 'Ervin Howell', username: '@ervin', email: 'ervin@gmail.com' },
-    { id: 4, name: 'Clementine Bauch', username: '@clementine', email: 'clementine@gmail.com' },
-    { id: 5, name: 'Glenna Reichert', username: '@glenna', email: 'glenna@gmail.com' }
-  ]
+];
 
+export default function PlaygroundPage() {
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
-      <Title>Users</Title>
-      <Text>
-        A list of users retrieved from a MySQL database (PlanetScale).
-      </Text>
-      <Search />
-      <Card className="mt-6">
-        <Suspense>
-          <UsersTable users={users} />
-        </Suspense>
-      </Card>
+      <Grid numItemsSm={2} numItemsLg={3} className="gap-6">
+        {data.map((item) => (
+          <Card key={item.category}>
+            <Title>{item.category}</Title>
+            <Flex
+              justifyContent="start"
+              alignItems="baseline"
+              className="space-x-2"
+            >
+              <Metric>{item.stat}</Metric>
+              <Text>Total views</Text>
+            </Flex>
+            <Flex className="mt-6">
+              <Text>Pages</Text>
+              <Text className="text-right">Views</Text>
+            </Flex>
+            <BarList
+              data={item.data}
+              valueFormatter={(number: number) =>
+                Intl.NumberFormat('us').format(number).toString()
+              }
+              className="mt-2"
+            />
+          </Card>
+        ))}
+      </Grid>
+      <Chart />
     </main>
   );
 }
-
